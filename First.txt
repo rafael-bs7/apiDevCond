@@ -1,0 +1,37 @@
+-instalando o venv:
+sudo pip3 install virtualenv
+
+- criando o venv na pasta:
+virtualenv -p python3 venv
+
+- executando o venv na pasta:
+source ./venv/bin/activate
+
+- instalando o flask:
+pip install flask
+
+- Comandos Mysql
+-- instalará componentes do Python necessários para abrirmos uma conexão com o MYSQL:
+--- sudo apt-get install python3-dev libmysqlclient-dev
+--Instalará a lib mysqlclient que existe para o Python:
+--- pip install mysqlclient
+-- a lib responsável por permitir que executemos os comandos Mysql em uma aplicação Python:
+--- pip install flask-mysqldb
+
+- instalando o sqlAlchemy
+pip install Flask-SQLAlchemy*
+
+
+
+- Instalação do MIgrate:
+migração da estrutura do banco de dados criado no Flask para a nossa base de dados:
+-- pip install Flask-Migrate (pip install Flask-Migrate==2.5.3
+- Rodando o comando para instalar o componente Flask-Script, que auxiliará a criaçaõ das migrações do banco de dados:
+--pip install Flask-Script
+- rodando o migrate:
+-- python migrate.py db init
+- para realizar o migrate:
+-- python migrate.py db migrate
+-modificções no banco:
+-- python migrate.py db upgrade
+

@@ -1,0 +1,208 @@
+-Confuguração:
+-- JWT: não há tempo de expiração de token
+
+
+
+1: user:
+- id;
+- string('name');
+- string ('email') ->unique;
+- string('cpf') -> unique;
+- string ('password');
+----------------------------------------------------------
+2-units:
+- id;
+- string('name');
+- integer('id_ower);
+----------------------------------------------------------
+3- unitpeoples:
+- id;
+- interger('id_unit);
+- string ('name');
+- date('birthdate);
+----------------------------------------------------------
+4- unitvehicles:
+- id;
+- interger('id_unit);
+- string ('title');
+- string ('color');
+- string ('plate');
+----------------------------------------------------------
+5- unitpets:
+- id;
+- interger('id_unit);
+- string ('name');
+- string ('race');
+----------------------------------------------------------
+5- walls:
+- id;
+- string ('title');
+- string ('body');
+- string ('datecreated');
+----------------------------------------------------------
+6: walllikes:
+- id;
+- integer('id_wall');
+- integer(id_user');
+----------------------------------------------------------
+7 - docs:
+- id;
+- string ('title');
+- string ('fileurl');
+----------------------------------------------------------
+8- billets:
+- id;
+- interger('id_unit);
+- string ('title');
+- string ('fileurl');
+----------------------------------------------------------
+9 - warnings:
+- id;
+- interger('id_unit);
+- string ('title');
+- string ('status'); default ('IN_REVIEW')  and 	RESOLVED
+- date('datecreated')
+- text('photos');
+---------------------------------------------------------
+10 - foundandlost:
+- id;
+- interger('id_unit);
+- string ('status'); default('LOST')  and  RECOVERED
+- string ('photo');	
+- string ('description')
+- string ('where')
+- date ('datecreated')
+---------------------------------------------------------
+
+11-areas:
+-id;
+-integer('allowed') default (1);
+- string('title')
+- string('cover')
+- string ('days');
+- time('start_time');
+- time('end_time');
+
+----------------------------------------------------------
+
+12 - areadisableddays:
+-id;
+-integer('id_areas');
+-integer('day');
+----------------------------------------------------------
+
+13- reservations:
+-id;
+-integer('id_unit');
+-integer('id_area');
+-datetime('reservation_date');
+
+
+
+
+
+
+
+
+controller:
+- AuthController;
+- WallController;
+- DocController;
+- WarningController;
+- BilletController;
+- FoundAndLostController;
+- UnitController;
+- ReservationController;
+- UserController;
+
+rotas:
+
+get('/401') - AuthController - método:unauthorized -name:login
+post('/auth/login'), AuthController, método: login
+post('/auth/register'), AuthController, método: register
+
+As rotas abaixo o user deve estar logado:
+
+post('/auth/validate'), AuthController, método:validateToken
+post('/auth/logout') , AuthController, método: logout.
+
+
+
+//mural de avisos
+
+get('/walls'), WallController, método: getAll
+post('/walls/{id}/like'), WallController, método:like
+
+//Docs:
+
+get('/docs'), DocController, método:getAll
+
+//Livro de ocorrencias:
+
+get('/warnings'), WarningController, método:getMyWarnings
+post('warning'), WarningController, método: setWarning
+post(/'warning/file') WarningController, método:addWarningFile
+
+// Boletos
+get('billets'), BilletController, getAll
+
+
+
+
+//Achados e perdidos:
+get(/foundandlost), FoundAndLostController, getAll
+post(/foundandlost), FoundAndLostController, insert
+put(/foundantlost/{id}), FoundAndLostController, update
+
+
+//unidade
+
+get(/unit/{id}) UnitController, getinfo
+post(/unit,{id}/addperson) UnitController, addPerson
+post(/unit/{id}/addvehicle, UnitController, addVehicle
+post(/unit,{id}/addpet), UnitController, addpet
+post(/unit,{id}/removeperson), UnitController, removePerson
+post(/unit,{id}/removevehicle), UnitController, removeVehicle
+post(/unit,{id}/removepet), UnitController, removePet
+
+
+
+//Reservas
+
+get(/reservations), ReservationController, getReservation
+post(/reservations/{id), ReservationController, setReservation
+
+get(/reservations/{id}/disableddates), ReservationController, getDisableDates
+get(/reservations/{id}/times), ReservationController, getTimes
+
+get(/myreservations), ReservationController, getMyReservation   
+delete(/myreservation/{id}), ReservationController, delMyReservation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Do flask:
+export FLASK_ENV=development
+
+
+falta:
+1- logout: como destruir o token
+2- token -> Authorization  e fazer bloqueio de requisições para algumas rotas
+3- upload de docs
+4- docs
+5- billets
+6- warnings
+7- foundandlost - a parte de formatar a foto (04:39)  min no video
