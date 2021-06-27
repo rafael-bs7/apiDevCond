@@ -203,8 +203,81 @@ def create_app(config_name):
             res = lostFound.insert()
             return ''
         
+    @app.route('/unit/<int:id>', methods=['GET'])
+    def getInfo(id):
+        unit = UnitController()
+        res = unit.getInfo(id)
+        
+        if res:
+           peoples = unit.getPeople(id)
+           vehicles = unit.getVehicles(id)
+           pets = unit.getPets(id)
+           return {
+                'error': '',
+                'peoples': peoples,
+                'vehicles': vehicles,
+                'pets': pets
+            }
+        else:
+            return {
+                'error': 'Propriedade não existente',
+            }
         
     
+    @app.route('/unit/<int:id>/addperson', methods=['POST'])
+    def addperson(id):
+        name = request.form['name']
+        birthdate = request.form['birthdate']
+        
+        if name == '' or birthdate == '':
+            message = 'Preencha todos os campos!'
+        else:
+            unit = UnitController()
+            res = unit.add_Person(name, birthdate, id)
+            if res:
+                message = 'Cadastro realizado com sucesso'
+            else:
+                message = 'Erro ao efetivar o cadastro!'
+
+        return {'error': message}
+    
+    @app.route('/unit/<int:id>/addvehicle', methods=['POST'])
+    def addvehicle(id):
+        title = request.form['title']
+        color = request.form['color']
+        plate = request.form['plate']
+        
+        if title == '' or color == '' or plate == '':
+            message = 'Preencha todos os campos!'
+        else:
+            unit = UnitController()
+            res = unit.add_Vehicle(title, color,plate, id)
+            if res:
+                message = 'Cadastro realizado com sucesso'
+            else:
+                message = 'Erro ao efetivar o cadastro!'
+
+        return {'error': message}
+            
+    
+    @app.route('/unit/<int:id>/addpet', methods=['POST'])
+    def addpet(id):
+        name = request.form['name']
+        race = request.form['race']
+
+        
+        if name == '' or race == '':
+            message = 'Preencha todos os campos!'
+        else:
+            unit = UnitController()
+            res = unit.add_Pet(name, race, id)
+            if res:
+                message = 'Cadastro realizado com sucesso'
+            else:
+                message = 'Erro ao efetivar o cadastro!'
+
+        return {'error': message}
+
     # rota temporária
     @app.route('/units')
     def get_units():

@@ -13,6 +13,19 @@ class  Unit(db.Model):
     def __repr__(self):
         return '%s - %s' % (self.id, self.name)
     
+    
+    def get_unit_by_id(self, id):
+        try:
+            res = db.session.query(Unit).filter(Unit.id==id).first()
+        except Exception as e:
+            res = None
+        finally:
+            db.session.close()
+            return res
+    
+    
+    
+    
     def get_unit_by_id_ower(self, id_ower):
         try:
             res = db.session.query(Unit).filter(Unit.id_ower==id_ower).first()
