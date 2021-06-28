@@ -1,0 +1,1 @@
+Back-end criado em Flask para ser consumido no projeto React-Native DevCond
